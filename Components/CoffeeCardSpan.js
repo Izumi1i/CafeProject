@@ -5,17 +5,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const CoffeeCardSpan = (props) => {
   const [pressed, setPressed] = useState(false);
 
-  const handlePress = () => {
-    console.log('Card pressed');
-  };
-
   const handleAddToFavorites = () => {
     console.log('Added to favorites');
     setPressed(!pressed);
   };
 
   return (
-    <Pressable onPress={handlePress}>
+    <Pressable onPress={props.onPress}>
       <View style={styles.container}>
         <Image style={styles.image} source={props.image} />
         <View style={styles.descriptionContainer}>
@@ -54,7 +50,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#ECBC24',
+    backgroundColor: '#D2B48C',
     width: '100%',
     maxWidth: 200,
     paddingVertical: 8,

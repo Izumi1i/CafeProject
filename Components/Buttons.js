@@ -33,14 +33,14 @@ export default Buttons;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FFC20F",
+    backgroundColor: "#D2B48C",
     borderRadius: 15,
     paddingVertical: 15,
     paddingHorizontal: 20,
     elevation: 5,
   },
   containerOutline: {
-    borderColor: "#FFC20F",
+    borderColor: "#D2B48C",
     borderWidth: 2,
     borderRadius: 15,
     paddingVertical: 15,

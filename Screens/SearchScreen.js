@@ -4,21 +4,12 @@ import Header from '../Components/Header';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CoffeeCard from '../Components/CoffeeCard'
 
-const profilePhoto = require('../assets/userPhoto.png');
-
 const SearchScreen = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchInput, setSearchInput] = useState('');
 
-  // Dummy data for demonstration
-  const dummyProducts = [
-    { id: 'coffee1', name: 'Caffe Misto', image: require('../assets/CaffeeMisto.jpg'), ratings: 4.5, price: 120 },
-    { id: 'coffee2', name: 'Drip Coffee', image: require('../assets/Drip_Coffee.jpg'), ratings: 4.2, price: 120 },
-  ];
-
   useEffect(() => {
-    // Simulating fetching all products
     setAllProducts(dummyProducts);
     setFilteredProducts(dummyProducts);
   }, []);
@@ -45,7 +36,7 @@ const SearchScreen = () => {
       <ScrollView>
         <View style={styles.productsContainer}>
           {filteredProducts.map((product) => (
-            <ProductCard
+            <CoffeeCard
               key={product.id}
               id={product.id}
               image={{ uri: product.image }}

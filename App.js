@@ -61,6 +61,11 @@ export default function App() {
             component={Home}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="CoffeeDetail"
+            component={CoffeeDetail}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </SafeAreaProvider>
     </NavigationContainer>

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { SafeAreaView, ScrollView, View, Text, StyleSheet } from "react-native";
 import CoffeeCardSpan from "../Components/CoffeeCardSpan";
 import FilterBar from "../Components/FilterBar";
+import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
+  const navigation = useNavigation();
   const [allProducts, setAllProducts] = useState([]);
   const [recentProducts, setRecentProducts] = useState([]);
   const [mostViewedProducts, setMostViewedProducts] = useState([]);
@@ -157,6 +159,10 @@ const Home = () => {
 
   }, []);
 
+  const handleCoffeeClick = (coffee) => {
+    navigation.navigate('CoffeeDetail', { coffee });
+  };
+
   return (
     <SafeAreaView style={styles.mainContainer}>
       <FilterBar />
@@ -173,6 +179,7 @@ const Home = () => {
                   title={product.name}
                   reviews={product.ratings}
                   price={product.price}
+                  onPress={() => handleCoffeeClick(product)}
                 />
               ))}
             </View>
@@ -191,6 +198,7 @@ const Home = () => {
                   title={product.name}
                   reviews={product.ratings}
                   price={product.price}
+                  onPress={() => handleCoffeeClick(product)}
                 />
               ))}
             </View>
@@ -209,6 +217,7 @@ const Home = () => {
                   title={product.name}
                   reviews={product.ratings}
                   price={product.price}
+                  onPress={() => handleCoffeeClick(product)}
                 />
               ))}
             </View>
@@ -227,6 +236,7 @@ const Home = () => {
                   title={product.name}
                   reviews={product.ratings}
                   price={product.price}
+                  onPress={() => handleCoffeeClick(product)}
                 />
               ))}
             </View>
@@ -245,6 +255,7 @@ const Home = () => {
                   title={product.name}
                   reviews={product.ratings}
                   price={product.price}
+                  onPress={() => handleCoffeeClick(product)}
                 />
               ))}
             </View>
@@ -263,6 +274,7 @@ const Home = () => {
                   title={product.name}
                   reviews={product.ratings}
                   price={product.price}
+                  onPress={() => handleCoffeeClick(product)}
                 />
               ))}
             </View>
@@ -281,6 +293,7 @@ const Home = () => {
                   title={product.name}
                   reviews={product.ratings}
                   price={product.price}
+                  onPress={() => handleCoffeeClick(product)}
                 />
               ))}
             </View>
