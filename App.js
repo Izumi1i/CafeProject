@@ -45,28 +45,34 @@ export default function App() {
   return (
     <NavigationContainer>
       <SafeAreaProvider>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="OnBoarding"
-            component={OnBoardingScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-              name="Login"
-              component={ Login }
-              options={{ headerShown: false }}
-            />
-          <Stack.Screen
-            name="Dashboard"
-            component={Home}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="CoffeeDetail"
-            component={CoffeeDetail}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
+      <Stack.Navigator>
+  <Stack.Screen
+    name="OnBoarding"
+    component={OnBoardingScreen}
+    options={{ headerShown: false }}
+  />
+  <Stack.Screen
+    name="Login"
+    component={Login}
+    options={{ headerShown: false }}
+  />
+  <Stack.Screen
+    name="Dashboard"
+    component={AppStack} // Changed to AppStack which contains the bottom tab navigator
+    options={{ headerShown: false }}
+  />
+  <Stack.Screen
+    name="CoffeeDetail"
+    component={CoffeeDetail}
+    options={{ headerShown: false }}
+  />
+  <Stack.Screen
+    name="SearchScreen" // Added SearchScreen route here
+    component={SearchScreen}
+    options={{ headerShown: false }}
+  />
+</Stack.Navigator>
+
       </SafeAreaProvider>
     </NavigationContainer>
   );
@@ -144,7 +150,7 @@ function AppStack() {
         tabBarActiveTintColor: '#402E32',
         tabBarCentered: true,
         tabBarStyle: {
-          backgroundColor: "#FFC20F",
+          backgroundColor: "#967969",
           height: 56,
           padding: 10,
         }

@@ -159,13 +159,17 @@ const Home = () => {
 
   }, []);
 
+  const getProducts = () => {
+    return allProducts;
+  };
+
   const handleCoffeeClick = (coffee) => {
     navigation.navigate('CoffeeDetail', { coffee });
   };
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <FilterBar />
+     <FilterBar onSearchPress={getProducts} />
       <ScrollView>
         {/* Most Viewed Section */}
         <View style={styles.sectionContainer}>

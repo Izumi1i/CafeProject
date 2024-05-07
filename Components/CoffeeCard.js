@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const CoffeeCard = (props) => {
+const CoffeeCard = ({ image, title }) => {
   const [pressed, setPressed] = useState(false);
 
   const handlePress = () => {
-    // Handle card press action here
     console.log('Card pressed');
   };
 
   const handleAddToFavorites = () => {
-    // Handle add to favorites action here
     console.log('Added to favorites');
     setPressed(!pressed);
   };
@@ -19,11 +17,10 @@ const CoffeeCard = (props) => {
   return (
     <Pressable onPress={handlePress}>
       <View style={styles.container}>
-        <Image style={styles.image} source={{ uri: props.image }} />
+        <Image style={styles.image} source={image} />
         <View style={styles.descriptionContainer}>
           <View style={styles.descriptionBox}>
-            <Text style={styles.titleText}>{props.title}</Text>
-            <Text style={styles.priceText}>₱{props.price}</Text>
+            <Text style={styles.titleText}>{title}</Text>
           </View>
           <Pressable onPress={handleAddToFavorites}>
             {pressed ? (

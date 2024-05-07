@@ -1,31 +1,40 @@
-import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import Header from '../Components/Header';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import CoffeeCard from '../Components/CoffeeCard'
+import { StyleSheet, Text, View, TextInput, ScrollView, SafeAreaView } from 'react-native';
+import { useRoute } from '@react-navigation/native';
+import Header from '../Components/Header'; // Import the Header component
+import CoffeeCard from '../Components/CoffeeCard';
 
 const SearchScreen = () => {
-  const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchInput, setSearchInput] = useState('');
+  const [searchAttempted, setSearchAttempted] = useState(false); // New state to track if search was performed
+  const route = useRoute();
+  const { products } = route.params;
 
   useEffect(() => {
-    setAllProducts(dummyProducts);
-    setFilteredProducts(dummyProducts);
+    // Initialize filteredProducts state with an empty array
+    setFilteredProducts([]);
   }, []);
+
+  const Header = ({ title }) => {
+    return (
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerTitle}>{title}</Text>
+      </View>
+    );
+  };
 
   const handleOnChange = (text) => {
     setSearchInput(text);
-    const filtered = allProducts.filter((product) =>
-      product.name.toLowerCase().includes(text.toLowerCase())
-    );
+    const filtered = products.filter(product => product.name.toLowerCase().includes(text.toLowerCase()));
     setFilteredProducts(filtered);
+    setSearchAttempted(true); // Set that search was attempted
   };
-
+  
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.safeArea}>
       <Header title="Search" />
-      <View>
+      <View style={styles.searchContainer}>
         <TextInput
           style={styles.textInput}
           placeholder="Search products"
@@ -35,17 +44,18 @@ const SearchScreen = () => {
       </View>
       <ScrollView>
         <View style={styles.productsContainer}>
-          {filteredProducts.map((product) => (
-            <CoffeeCard
-              key={product.id}
-              id={product.id}
-              image={{ uri: product.image }}
-              title={product.name}
-              reviews={product.ratings}
-              price={product.price}
-            />
-          ))}
-          {filteredProducts.length === 0 && (
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <CoffeeCard
+                key={product.id}
+                id={product.id}
+                image={product.image}
+                title={product.name}
+                reviews={product.ratings}
+                price={product.price}
+              />
+            ))
+          ) : searchAttempted && searchInput.length > 0 && ( // Only show no items message if search was attempted and input is not empty
             <View style={styles.noItemsAvailableContainer}>
               <Text style={styles.noItemsAvailableText}>No items available.</Text>
             </View>
@@ -59,6 +69,12 @@ const SearchScreen = () => {
 export default SearchScreen;
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
+  searchContainer: {
+    paddingHorizontal: 10,
+  },
   textInput: {
     fontFamily: 'poppinsRegular',
     borderColor: 'black',
@@ -82,5 +98,16 @@ const styles = StyleSheet.create({
   noItemsAvailableText: {
     fontFamily: 'poppinsLight',
     textAlign: 'center',
+  },
+  headerContainer: {
+    height: 70, // Increased height for more padding space
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 30, // Increased top padding to lower the title
+    backgroundColor: '#967969', // Assuming the original color was white
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });

@@ -3,28 +3,23 @@ import { StyleSheet, View, Pressable } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-const FilterBar = () => {
+const FilterBar = ({ onSearchPress }) => {
   const navigation = useNavigation();
 
-  const onPress = () => {
-    navigation.navigate('SearchScreen');
-  }
-  
-  const onMenuPress = () => {
+  const handleSearchPress = () => {
+    // Assuming 'onSearchPress' returns the products data
+    const products = onSearchPress();
+    navigation.navigate('SearchScreen', { products });
   };
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={onMenuPress} style={styles.menuIcon}>
-        <FontAwesome name="bars" size={24} color="black" />
-      </Pressable>
-      {/* Search button */}
-      <Pressable onPress={() => onPress()} style={styles.searchIcon}>
+      <Pressable onPress={handleSearchPress} style={styles.searchIcon}>
         <FontAwesome name="search" size={20} color="black" />
       </Pressable>
     </View>
-  )
-}
+  );
+};
 
 export default FilterBar;
 
@@ -34,17 +29,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 75,
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 7,
+    justifyContent: 'flex-end',  
+    paddingHorizontal: 15,  
     paddingVertical: 5,
     marginBottom: 10,
   },
-  menuIcon: {
-    paddingHorizontal: 15,
-    marginTop: 25,
-  },
   searchIcon: {
-    paddingHorizontal: 15,
-    marginTop: 25,
+    paddingHorizontal: 15,  
+    marginTop: 25,  
   },
 });

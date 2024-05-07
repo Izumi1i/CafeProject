@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const CoffeeCardSpan = (props) => {
+const CoffeeCardSpan = ({ onPress, image, title, price }) => {
   const [pressed, setPressed] = useState(false);
 
   const handleAddToFavorites = () => {
@@ -11,13 +11,13 @@ const CoffeeCardSpan = (props) => {
   };
 
   return (
-    <Pressable onPress={props.onPress}>
+    <Pressable onPress={onPress}>
       <View style={styles.container}>
-        <Image style={styles.image} source={props.image} />
+        <Image style={styles.image} source={image} />
         <View style={styles.descriptionContainer}>
           <View style={styles.descriptionBox}>
-            <Text style={styles.titleText}>{props.title}</Text>
-            <Text style={styles.priceText}>{props.price}</Text>
+            <Text style={styles.titleText}>{title}</Text>
+            <Text style={styles.priceText}>{price}</Text>
           </View>
           <Pressable onPress={handleAddToFavorites}>
             {pressed ? (
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     maxWidth: 190,
     borderRadius: 7,
     margin: 4,
+    backgroundColor: 'white', // Ensure background contrasts for better visibility
   },
   descriptionBox: {
     flexDirection: 'column',
@@ -52,10 +53,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#D2B48C',
     width: '100%',
-    maxWidth: 200,
-    paddingVertical: 8,
     paddingHorizontal: 12,
-    gap: 5,
+    paddingVertical: 8,
     borderBottomRightRadius: 7,
     borderBottomLeftRadius: 7,
   },
@@ -64,12 +63,13 @@ const styles = StyleSheet.create({
     height: 220,
     borderTopRightRadius: 7,
     borderTopLeftRadius: 7,
+    resizeMode: 'cover', // Ensure the image covers the designated area properly
   },
   titleText: {
     color: 'black',
     fontSize: 17,
-    maxWidth: 140,
     fontFamily: 'poppinsBold',
+    maxWidth: 140,
   },
   priceText: {
     fontSize: 13,
