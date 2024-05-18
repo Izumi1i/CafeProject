@@ -4,16 +4,8 @@
 
 CafeProject is a React Native application that allows users to explore various types of coffee and provides detailed brewing instructions. This project aims to enhance the coffee experience by making it easy for users to discover and prepare new coffee recipes.
 
-## Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [Features](#features)
-- [Contributing](#contributing)
-- [Credits](#credits)
-- [License](#license)
-
-## Installation
+### Installation
 
 Follow these steps to install and run the project locally.
 
