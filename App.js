@@ -7,12 +7,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { UserProvider } from './Context/UserContext';
 
 import OnBoardingScreen from './Screens/OnBoardingScreen';
 import Login from './Screens/Login';
 import Home from './Screens/Home';
 import Favorites from './Screens/Favorites';
-import Account from './Screens/Accounts/Account';
 import CoffeeDetail from './Screens/CoffeeDetail';
 import SearchScreen from './Screens/SearchScreen';
 
@@ -45,53 +45,45 @@ export default function App() {
   return (
     <NavigationContainer>
       <SafeAreaProvider>
-      <Stack.Navigator>
-  <Stack.Screen
-    name="OnBoarding"
-    component={OnBoardingScreen}
-    options={{ headerShown: false }}
-  />
-  <Stack.Screen
-    name="Login"
-    component={Login}
-    options={{ headerShown: false }}
-  />
-  <Stack.Screen
-    name="Dashboard"
-    component={AppStack} // Changed to AppStack which contains the bottom tab navigator
-    options={{ headerShown: false }}
-  />
-  <Stack.Screen
-    name="CoffeeDetail"
-    component={CoffeeDetail}
-    options={{ headerShown: false }}
-  />
-  <Stack.Screen
-    name="SearchScreen" // Added SearchScreen route here
-    component={SearchScreen}
-    options={{ headerShown: false }}
-  />
-</Stack.Navigator>
-
+        <UserProvider>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="OnBoarding"
+              component={OnBoardingScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Dashboard"
+              component={AppStack}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="CoffeeDetail"
+              component={CoffeeDetail}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SearchScreen"
+              component={SearchScreen}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </UserProvider>
       </SafeAreaProvider>
     </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
 const HomeStack = () => {
   return (
     <Stack.Navigator initialRouteName="CoffeeScreen">
       <Stack.Screen name="CoffeeScreen" component={Home} options={{ headerShown: false }} />
-      <Stack.Screen name="CoffeeDetailScreen" component={CoffeeDetail} options={{ headerShown: false }} />
+      <Stack.Screen name="CoffeeDetail" component={CoffeeDetail} options={{ headerShown: false }} />
       <Stack.Screen name="SearchScreen" component={SearchScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
@@ -106,20 +98,12 @@ const FavoritesStack = () => {
   );
 };
 
-const AccountStack = () => {
-  return (
-    <Stack.Navigator initialRouteName="Account">
-      <Stack.Screen name="Account" component={Account} options={{ headerShown: false }} />
-    </Stack.Navigator>
-  );
-};
-
 function AppStack() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
-          if (route.name === 'Coffee') {
+          if (route.name === 'Coffees') {
             return (
               <MaterialCommunityIcons
                 name={focused ? 'coffee' : 'coffee-outline'}
@@ -135,20 +119,11 @@ function AppStack() {
                 color={color}
               />
             );
-          } else if (route.name === 'Account') {
-            return (
-              <MaterialCommunityIcons
-                name={focused ? 'account' : 'account-outline'}
-                size={26}
-                color={color}
-              />
-            );
           }
         },
         tabBarLabel: '',
         tabBarInactiveTintColor: 'white',
         tabBarActiveTintColor: '#402E32',
-        tabBarCentered: true,
         tabBarStyle: {
           backgroundColor: "#967969",
           height: 56,
@@ -164,11 +139,6 @@ function AppStack() {
       <Tab.Screen
         name="Favorites"
         component={FavoritesStack}
-        options={{ headerShown: false }}
-      />
-      <Tab.Screen
-        name="Account"
-        component={AccountStack}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>

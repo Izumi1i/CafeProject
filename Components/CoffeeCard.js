@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { useUser } from '../Context/UserContext';
 
-const CoffeeCard = ({ image, title }) => {
-  const [pressed, setPressed] = useState(false);
+const CoffeeCard = ({ id, image, title }) => {
+  const { userData, setUserData } = useUser();
+  const navigation = useNavigation();
+  const [pressed, setPressed] = useState(userData.favorites.includes(id));
+
+  useEffect(() => {
+    setPressed(userData.favorites.includes(id));
+  }, [userData.favorites, id]);
 
   const handlePress = () => {
-    console.log('Card pressed');
+    navigation.navigate('CoffeeDetail', { id });
   };
 
-  const handleAddToFavorites = () => {
-    console.log('Added to favorites');
-    setPressed(!pressed);
+  const handleFavoritePress = () => {
+    const newFavorites = pressed
+      ? userData.favorites.filter(favId => favId !== id)
+      : [...userData.favorites, id];
+
+    setUserData({ ...userData, favorites: newFavorites });
   };
 
   return (
@@ -22,7 +33,7 @@ const CoffeeCard = ({ image, title }) => {
           <View style={styles.descriptionBox}>
             <Text style={styles.titleText}>{title}</Text>
           </View>
-          <Pressable onPress={handleAddToFavorites}>
+          <Pressable onPress={handleFavoritePress}>
             {pressed ? (
               <MaterialCommunityIcons name="bookmark" size={24} color="white" />
             ) : (
@@ -73,10 +84,5 @@ const styles = StyleSheet.create({
     fontSize: 17,
     maxWidth: 140,
     fontFamily: 'poppinsBold',
-  },
-  priceText: {
-    fontSize: 13,
-    color: 'white',
-    fontFamily: 'poppinsLight',
   },
 });

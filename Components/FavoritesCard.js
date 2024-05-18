@@ -5,7 +5,7 @@ import { useUser } from '../Context/UserContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const FavoritesCard = (props) => {
-  const { userData } = useUser();
+  const { userData, setUserData } = useUser();
   const navigation = useNavigation();
   const id = props.id;
 
@@ -13,30 +13,21 @@ const FavoritesCard = (props) => {
     navigation.navigate('CoffeeDetail', { id });
   };
 
-  const handleDelete = async (userId, favoriteId) => {
-    try {
-      // Your delete logic goes here
-      console.log('Favorite deleted successfully');
-    } catch (error) {
-      console.error('Error deleting favorite: ', error);
-    }
+  const handleDelete = () => {
+    const newFavorites = userData.favorites.filter(favId => favId !== id);
+    setUserData({ ...userData, favorites: newFavorites });
   };
 
   return (
     <Pressable onPress={handlePress}>
-      <View style={styles.descriptionBox}>
-        <View style={styles.rightSide}>
-          <Image style={styles.image} source={{ uri: props.image }} />
-          <View>
-            <Text style={styles.titleText}>{props.title}</Text>
-            <Text style={styles.priceText}>₱{props.price}</Text>
-          </View>
+      <View style={styles.cardContainer}>
+        <Image style={styles.image} source={props.image} />
+        <View style={styles.textContainer}>
+          <Text style={styles.titleText}>{props.title}</Text>
         </View>
-        <View style={styles.descriptionContainer}>
-          <Pressable onPress={() => handleDelete(userData.id, id)}>
-            <MaterialCommunityIcons name="delete-outline" size={24} color="white" />
-          </Pressable>
-        </View>
+        <Pressable onPress={handleDelete}>
+          <MaterialCommunityIcons name="delete-outline" size={24} color="white" />
+        </Pressable>
       </View>
     </Pressable>
   );
@@ -45,42 +36,27 @@ const FavoritesCard = (props) => {
 export default FavoritesCard;
 
 const styles = StyleSheet.create({
-  rightSide: {
-    alignItems: 'center',
+  cardContainer: {
     flexDirection: 'row',
-    gap: 15,
-  },
-  descriptionBox: {
-    flex: 1,
+    alignItems: 'center',
     justifyContent: 'space-between',
-    flexDirection: 'row',
     padding: 10,
-    height: 120,
-    backgroundColor: '#ECBC24',
+    backgroundColor: '#D2B48C',
     borderRadius: 7,
-    width: 400,
-  },
-  descriptionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 15,
-    gap: 20,
+    marginVertical: 5,
   },
   image: {
     width: 100,
     height: 100,
     borderRadius: 7,
   },
+  textContainer: {
+    flex: 1,
+    paddingLeft: 10,
+  },
   titleText: {
     color: 'white',
     fontFamily: 'poppinsBold',
     fontSize: 17,
-    width: 210,
-  },
-  priceText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 13,
-    fontFamily: 'poppinsBold',
   },
 });

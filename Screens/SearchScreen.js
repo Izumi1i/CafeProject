@@ -1,39 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, ScrollView, SafeAreaView } from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import Header from '../Components/Header'; // Import the Header component
+import { useUser } from '../Context/UserContext';
 import CoffeeCard from '../Components/CoffeeCard';
 
 const SearchScreen = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchInput, setSearchInput] = useState('');
-  const [searchAttempted, setSearchAttempted] = useState(false); // New state to track if search was performed
-  const route = useRoute();
-  const { products } = route.params;
-
-  useEffect(() => {
-    // Initialize filteredProducts state with an empty array
-    setFilteredProducts([]);
-  }, []);
-
-  const Header = ({ title }) => {
-    return (
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerTitle}>{title}</Text>
-      </View>
-    );
-  };
+  const [searchAttempted, setSearchAttempted] = useState(false);
+  const { products } = useUser();
 
   const handleOnChange = (text) => {
     setSearchInput(text);
     const filtered = products.filter(product => product.name.toLowerCase().includes(text.toLowerCase()));
     setFilteredProducts(filtered);
-    setSearchAttempted(true); // Set that search was attempted
+    setSearchAttempted(true);
   };
-  
+
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Header title="Search" />
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerTitle}>Search</Text>
+      </View>
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.textInput}
@@ -51,11 +38,9 @@ const SearchScreen = () => {
                 id={product.id}
                 image={product.image}
                 title={product.name}
-                reviews={product.ratings}
-                price={product.price}
               />
             ))
-          ) : searchAttempted && searchInput.length > 0 && ( // Only show no items message if search was attempted and input is not empty
+          ) : searchAttempted && searchInput.length > 0 && (
             <View style={styles.noItemsAvailableContainer}>
               <Text style={styles.noItemsAvailableText}>No items available.</Text>
             </View>
@@ -71,6 +56,17 @@ export default SearchScreen;
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+  },
+  headerContainer: {
+    height: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 30,
+    backgroundColor: '#967969',
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   searchContainer: {
     paddingHorizontal: 10,
@@ -98,16 +94,5 @@ const styles = StyleSheet.create({
   noItemsAvailableText: {
     fontFamily: 'poppinsLight',
     textAlign: 'center',
-  },
-  headerContainer: {
-    height: 70, // Increased height for more padding space
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 30, // Increased top padding to lower the title
-    backgroundColor: '#967969', // Assuming the original color was white
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
   },
 });
